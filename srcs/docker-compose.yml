@@ -1,0 +1,12 @@
+version: '3.8'
+  nginx:
+    build: ./requirements/nginx # Dockerfile location
+    ports:
+      - 443:443
+  mariadb:
+    build: ./requirements/mariadb
+  wordpress:
+    build: ./requirements/wordpress
+    volumes:
+      - # wordpress database volume
+      - # wordpress sourcecode volume
