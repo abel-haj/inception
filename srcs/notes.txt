@@ -2,8 +2,22 @@ NGINX
     TLS 1.2 1.3 only instead of SSL
     https only with certicate
     domain name = login.42.fr -> local ip address
+    entrypoint
 
 MARIADB
 
 WORDPRESS & PHP
     1 admin and 1 user
+
+
+OTHER MANDATORY
+    network line in yml file
+    volumes must be at /home/login/data
+    use of env vars
+
+FORBIDDEN
+    no infinite loop
+    no --link or links
+    no latest tag
+    no passwords in Dockerfile
+

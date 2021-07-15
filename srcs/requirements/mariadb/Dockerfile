@@ -7,9 +7,17 @@ EXPOSE  3306
 RUN     apt-get -y update
 RUN     apt-get -y upgrade
 
-#   Installing NginX
-RUN     apt-get -y install nginx
+#   DEVELOPMENT
+RUN     apt-get -y install vim
+
+#   Installing MariaDB
+RUN     export DEBIAN_FRONTEND="noninteractive"
+# RUN     debconf-set-selections <<< "mariadb-server mysql-server/root_password password root"
+# RUN     debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password root"
+# RUN     apt-get -y install mariadb-server
+# COPY    ./install_mariadb.sh /tmp/
+# RUN     sh /tmp/install_mariadb.sh
 
 #   Configuring NginX
-ADD     ./conf/nginx.conf /etc/nginx/
+# ADD     ./conf/nginx.conf /etc/nginx/
 
