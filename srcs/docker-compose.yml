@@ -1,20 +1,34 @@
 version: '3.8'
 
 services:
-  nginx:
-    build:
-      context: ./requirements/nginx # Dockerfile location
-      # args:
-      #   - WP_PASSWORD=$MYSQL_PASSWORD
-    ports:
-      - 443:443
+  # nginx:  # service name
+  #   restart: "always" # restart on crash
+  #   build:
+  #     context: ./requirements/nginx # Dockerfile location
+  #     # args: # arguments passed to Dockerfile
+  #     #   - WP_PASSWORD=$MYSQL_PASSWORD
+  #   ports:  # necessary ports
+  #     - 443:443
+  #     - 9000:9000
   # mariadb:
-  #   build: ./requirements/mariadb
-    # ports:
-      # - 3306:3306
-  # wordpress:
-  #   build: ./requirements/wordpress
-  #   volumes:
+  #   restart: "always"
+  #   build:
+  #     context: ./requirements/mariadb
+  #     args:
+  #       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+  #       MYSQL_USER: "${MYSQL_USER}"
+  #       MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+  #   ports:
+  #     - 3306:3306
+  wordpress:
+    restart: "always"
+    build:
+      context: ./requirements/wordpress
+      args:
+        MYSQL_DATABASE: "${MYSQL_DATABASE}"
+        MYSQL_USER: "${MYSQL_USER}"
+        MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
       # - # wordpress database volume
       # - # wordpress sourcecode volume
   

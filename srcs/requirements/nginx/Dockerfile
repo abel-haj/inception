@@ -4,9 +4,6 @@ FROM    debian:buster
 EXPOSE  443
 EXPOSE  9000
 
-# ARG     WP_PW
-# ENV     WP_PW=$WP_PASSWORD
-
 #   Updating system
 RUN     apt-get -y update
 RUN     apt-get -y upgrade
@@ -30,4 +27,4 @@ COPY    ./conf/default /etc/nginx/sites-available/
 
 RUN     service nginx start
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD     ["nginx", "-g", "daemon off;"]
