@@ -1,3 +1,11 @@
-# MAC files
+# VirtualBox Shared folder data
+Backups/
+CachedData/
+Crash Reports/
+Dictionaries/
+logs/
+User/
+
+# MACOS Files
 .DS_Store
 
