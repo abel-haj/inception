@@ -2,7 +2,6 @@
 FROM    debian:buster 
 #   Expose useful ports
 EXPOSE  443
-EXPOSE  9000
 
 #   Updating system
 RUN     apt-get -y update
