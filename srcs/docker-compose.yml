@@ -2,17 +2,6 @@
 version: '3.3'
 
 services:
-    nginx: # service name
-        restart: "always" # restart on crash
-        build:
-            context: ./requirements/nginx # Dockerfile location
-            # args: # arguments passed to Dockerfile
-            #     - WP_PASSWORD=$MYSQL_PASSWORD
-        ports: # necessary ports
-            - 443:443
-        networks:
-            - incept
-
     mariadb:
         restart: "always"
         build:
@@ -28,19 +17,37 @@ services:
 
     wordpress:
         restart: "always"
+        depends_on:
+            - mariadb
         build:
             context: ./requirements/wordpress
-        # environment:
-        #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
-        #     MYSQL_USER: "${MYSQL_USER}"
-        #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+        environment:
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_USER: "${MYSQL_USER}"
+            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
         ports:
             - 9000:9000
         networks:
             - incept
-        # volumes:
+        volumes:
+            - wordpress:/var/www/html
             # - # wordpress database volume
             # - # wordpress sourcecode volume
+
+    nginx: # service name
+        restart: "always" # restart on crash
+        depends_on:
+            - wordpress
+        build:
+            context: ./requirements/nginx # Dockerfile location
+            # args: # arguments passed to Dockerfile
+            #     - WP_PASSWORD=$MYSQL_PASSWORD
+        ports: # necessary ports
+            - 443:443
+        volumes:
+            - wordpress:/var/www/html
+        networks:
+            - incept
 
 networks:
     incept:
