@@ -10,6 +10,8 @@ services:
             #     - WP_PASSWORD=$MYSQL_PASSWORD
         ports: # necessary ports
             - 443:443
+        networks:
+            - incept
 
     mariadb:
         restart: "always"
@@ -21,20 +23,24 @@ services:
             MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
         ports:
             - 3306:3306
+        networks:
+            - incept
 
-#     wordpress:
-#         restart: "always"
-#         build:
-#             context: ./requirements/wordpress
-#         environment:
-#             MYSQL_DATABASE: "${MYSQL_DATABASE}"
-#             MYSQL_USER: "${MYSQL_USER}"
-#             MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-#         ports:
-#             - 9000:9000
-#         volumes:
-#             # - # wordpress database volume
-#             # - # wordpress sourcecode volume
-    
-    # networks:
-        # incept
+    wordpress:
+        restart: "always"
+        build:
+            context: ./requirements/wordpress
+        # environment:
+        #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
+        #     MYSQL_USER: "${MYSQL_USER}"
+        #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+        ports:
+            - 9000:9000
+        networks:
+            - incept
+        # volumes:
+            # - # wordpress database volume
+            # - # wordpress sourcecode volume
+
+networks:
+    incept:
