@@ -10,6 +10,7 @@ services:
             MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
             MYSQL_USER: "${MYSQL_USER}"
             MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+            MYSQL_WP_DATABASE: "${MYSQL_WP_DATABASE}"
         ports:
             - 3306:3306
         networks:
@@ -22,7 +23,7 @@ services:
         build:
             context: ./requirements/wordpress
         environment:
-            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_DATABASE: "${MYSQL_WP_DATABASE}"
             MYSQL_USER: "${MYSQL_USER}"
             MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
         ports:
@@ -30,12 +31,12 @@ services:
         networks:
             - incept
         volumes:
-            - wordpress:/var/www/html
+            - wordpress_sources:/var/www/html
             # - # wordpress database volume
             # - # wordpress sourcecode volume
 
     nginx: # service name
-        restart: "always" # restart on crash
+        restart: "always" # restart on  crash
         depends_on:
             - wordpress
         build:
@@ -45,9 +46,17 @@ services:
         ports: # necessary ports
             - 443:443
         volumes:
-            - wordpress:/var/www/html
+            - wordpress_sources:/var/www/html
         networks:
             - incept
 
 networks:
     incept:
+
+volumes:
+    wordpress_sources:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: /home/abel-haj/data/wp_files

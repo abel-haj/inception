@@ -31,7 +31,8 @@ mkdir -p /home/abel-haj/data
 # start docker compose in background
 echo "alias dup='docker-compose up -d'" >> ~/.bash_aliases
 # ignore cache while building
-echo "alias dbuild='docker-compose build --no-cache'" >> ~/.bash_aliases
+echo "alias dbuild='docker-compose build'" >> ~/.bash_aliases
+echo "alias dbuildnocache='docker-compose build --no-cache'" >> ~/.bash_aliases
 echo "alias ddown='docker-compose down'" >> ~/.bash_aliases
 echo "alias dps='docker ps -a'" >> ~/.bash_aliases
 # update bashrc in current terminal

@@ -15,7 +15,7 @@ EXPOSE  3306
 
 #   Updating system
 RUN     apt-get -y update
-RUN     apt-get -y upgrade
+# RUN     apt-get -y upgrade
 
 #   DEVELOPMENT
 RUN     apt-get -y install vim
