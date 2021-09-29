@@ -1,23 +1,15 @@
-#	Download debian image
-FROM    debian:buster 
-#   Expose useful ports
-EXPOSE  9000
+FROM    debian:buster
 
-#   Updating system
-RUN   apt-get -y update
-# RUN   apt-get -y upgrade
+RUN     apt-get update -y
+RUN     apt-get install -y curl php7.3-fpm
 
-#   For communication between website and server
-RUN   apt-get -y install php7.3-fpm php7.3-mysql wget
+COPY    ./tools/install_wp.sh /tmp/
 
-#   Installing Wordpress
-COPY	./conf/install_wp.sh ./conf/conf_php.sh ./conf/launch_service.sh /tmp/
-RUN		sh /tmp/install_wp.sh
-# COPY  ./conf/wp-config.php /var/www/html/wordpress/
+# DEBUG
+EXPOSE  443
+RUN     apt-get install -y vim
+RUN     echo 'alias status="service --status-all"' >> /home/.bashrc
+RUN     /bin/bash -c "source /home/.bashrc"
+# DEBUG
 
-RUN		sh /tmp/conf_php.sh
-
-#   DEBUG
-RUN		apt-get -y install vim
-
-CMD   ["/bin/bash", "/tmp/launch_service.sh"]
+CMD     ["/bin/bash", "/tmp/install_wp.sh"]

@@ -1,30 +1,15 @@
-#	Download debian image
-FROM    debian:buster 
-#   Expose useful ports
-EXPOSE  3306
+FROM    debian:buster
 
-# #   
-# ARG     MYSQL_ROOT_PASSWORD
-# ARG     MYSQL_USER
-# ARG     MYSQL_PASSWORD
+RUN     apt-get update -y
+RUN     apt-get install -y mariadb-server
 
-# #   
-# ENV     MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-# ENV     MYSQL_USER=${MYSQL_USER}
-# ENV     MYSQL_PASSWORD=${MYSQL_PASSWORD}
+COPY    ./tools/configure_users.sh /tmp/
+RUN     /bin/bash /tmp/configure_users.sh
 
-#   Updating system
-RUN     apt-get -y update
-# RUN     apt-get -y upgrade
+# DEBUG
+RUN     apt-get install -y vim
+RUN     echo 'alias status="service --status-all"' >> /home/.bashrc
+RUN     /bin/bash -c "source /home/.bashrc"
+# DEBUG
 
-#   DEVELOPMENT
-RUN     apt-get -y install vim
-
-#   Installing MariaDB
-RUN     apt-get -y install mariadb-server
-
-COPY    ./conf/configure_users.sh /tmp/
-COPY		./conf/my.cnf /etc/mysql/
-RUN     /bin/bash ./tmp/configure_users.sh
-
-ENTRYPOINT  ["mysqld_safe"]
+ENTRYPOINT ["mysqld_safe"]

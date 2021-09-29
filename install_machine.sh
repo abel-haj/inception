@@ -4,7 +4,7 @@
 # to speed things up
 
 apt-get -y update;
-apt-get -y upgrade;
+# apt-get -y upgrade;
 
 # Docker
 apt-get -y remove docker docker-engine docker.io
@@ -26,14 +26,15 @@ curl -L https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.de
 dpkg -i /tmp/chrome.deb
 rm -rf /tmp/chrome.deb
 
-mkdir -p /home/abel-haj/data/wp_files /home/abel-haj/data/wp_db
+mkdir -p /home/abel-haj/data/wp_files /home/abel-haj/data/wp_db /home/abel-haj/data/phpmyadmin
 
-# start docker compose in background
-echo "alias dup='docker-compose up -d'" >> ~/.bash_aliases
-# ignore cache while building
-echo "alias dbuild='docker-compose build'" >> ~/.bash_aliases
-echo "alias dbuildnocache='docker-compose build --no-cache'" >> ~/.bash_aliases
-echo "alias ddown='docker-compose down'" >> ~/.bash_aliases
-echo "alias dps='docker ps -a'" >> ~/.bash_aliases
-# update bashrc in current terminal
-source ~/.bashrc
+### Moved to Makefile
+# # start docker compose in background
+# echo "alias dup='docker-compose up -d'" >> ~/.bash_aliases
+# # ignore cache while building
+# echo "alias dbuild='docker-compose build'" >> ~/.bash_aliases
+# echo "alias dbuildnocache='docker-compose build --no-cache'" >> ~/.bash_aliases
+# echo "alias ddown='docker-compose down'" >> ~/.bash_aliases
+# echo "alias dps='docker ps -a'" >> ~/.bash_aliases
+# # update bashrc in current terminal
+# source ~/.bashrc

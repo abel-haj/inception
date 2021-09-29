@@ -1,59 +1,54 @@
-# version: '3.8'
-version: '3'
+version:  '3'
 
 services:
-    nginx: # service name
-        restart: "always" # restart on  crash
-        # depends_on:
-        #     - wordpress
-        build:
-            context: ./requirements/nginx # Dockerfile location
-            # args: # arguments passed to Dockerfile
-            #     - WP_PASSWORD=$MYSQL_PASSWORD
-        ports: # necessary ports
-            - 443:443
-        volumes:
-            - wordpress_sources:/var/www/html
-        networks:
-            - incept
-    wordpress:
-        restart: "always"
-        depends_on:
-            - nginx
-        build:
-            context: ./requirements/wordpress
-        environment:
-            MYSQL_DATABASE: "${MYSQL_WP_DATABASE}"
-            MYSQL_USER: "${MYSQL_USER}"
-            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-        ports:
-            - 9000:9000
-        networks:
-            - incept
-        volumes:
-            - wordpress_sources:/var/www/html
-            # - # wordpress database volume
-                  # - # wordpress sourcecode volume
-    mariadb:
-      restart: "always"
-      build:
-          context: ./requirements/mariadb
-      environment: # pass variables from .env file to container environment
-          MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-          MYSQL_USER: "${MYSQL_USER}"
-          MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-          MYSQL_WP_DATABASE: "${MYSQL_WP_DATABASE}"
-      ports:
-          - 3306:3306
-      networks:
-          - incept
-networks:
-    incept:
+  # mariadb:
+  #   restart: "always"
+  #   build: ./requirements/mariadb
+  #   ports:
+  #     - 3306:3306
+  #   # volumes:
+  #   #   - wp-db:/var/www/html/
+  #   networks:
+  #     - incept
+
+  wordpress:
+    restart: "always"
+    # depends_on:
+    #   - mariadb
+    build: ./requirements/wordpress
+    ports:
+      - 9000:9000
+    volumes:
+      - wp-data:/var/www/html/
+    networks:
+      - incept
+
+  nginx:
+    restart: "always"
+    depends_on:
+      - wordpress
+    build: ./requirements/nginx
+    ports:
+      - 443:443
+    volumes:
+      - wp-data:/var/www/html/
+    networks:
+      - incept
 
 volumes:
-    wordpress_sources:
-        driver: local
-        driver_opts:
-            o: bind
-            type: none
-            device: /home/abel-haj/data/wp_files
+  wp-data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/abel-haj/data/wp_files'
+
+  db-data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/abel-haj/data/db_files'
+
+networks:
+  incept:

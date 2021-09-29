@@ -6,7 +6,8 @@ NGINX
 
 MARIADB
 
-WORDPRESS & PHP
+WORDPRESS
+    phpfpm
     1 admin and 1 user
 
 

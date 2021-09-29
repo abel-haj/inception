@@ -1,29 +1,19 @@
-#	Download debian image
-FROM    debian:buster 
-#   Expose useful ports
-EXPOSE  443
+FROM    debian:buster
 
-#   Updating system
-RUN     apt-get -y update
-# RUN     apt-get -y upgrade
-
-#   DEVELOPMENT
-RUN     apt-get -y install vim
-RUN     alias restartn="sevice nginx restart"
-RUN     alias vimdefault="vim /etc/nginx/sites-available/default"
-RUN     alias vim="vim /etc/nginx/nginx.conf"
-
-#   Installing NginX
-RUN     apt-get -y install nginx openssl
+RUN     apt-get update -y
+RUN     apt-get install -y nginx curl
 
 #   Creating a self-signed certificate & key [30 days, no password, rsa]
 RUN     openssl req -newkey rsa:4096 -x509 -nodes -subj "/CN=localhost" -out ssl_certificate.crt -keyout ssl_key.key
 RUN     mv ssl_certificate.crt ssl_key.key /etc/ssl/certs/
-
-#   Configuring NginX
-COPY    ./conf/nginx.conf /etc/nginx/
 COPY    ./conf/default /etc/nginx/sites-available/
 
 RUN     service nginx start
+
+# DEBUG
+RUN     apt-get install -y vim
+RUN     echo 'alias status="service --status-all"' >> /home/.bashrc
+RUN     /bin/bash -c "source /home/.bashrc"
+# DEBUG
 
 CMD     ["nginx", "-g", "daemon off;"]
