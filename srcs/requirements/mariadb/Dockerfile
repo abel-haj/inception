@@ -24,6 +24,7 @@ RUN     apt-get -y install vim
 RUN     apt-get -y install mariadb-server
 
 COPY    ./conf/configure_users.sh /tmp/
+COPY		./conf/my.cnf /etc/mysql/
 RUN     /bin/bash ./tmp/configure_users.sh
 
 ENTRYPOINT  ["mysqld_safe"]

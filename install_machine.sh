@@ -26,7 +26,7 @@ curl -L https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.de
 dpkg -i /tmp/chrome.deb
 rm -rf /tmp/chrome.deb
 
-mkdir -p /home/abel-haj/data
+mkdir -p /home/abel-haj/data/wp_files /home/abel-haj/data/wp_db
 
 # start docker compose in background
 echo "alias dup='docker-compose up -d'" >> ~/.bash_aliases

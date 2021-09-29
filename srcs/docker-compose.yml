@@ -1,25 +1,25 @@
 # version: '3.8'
-version: '3.3'
+version: '3'
 
 services:
-    mariadb:
-        restart: "always"
+    nginx: # service name
+        restart: "always" # restart on  crash
+        # depends_on:
+        #     - wordpress
         build:
-            context: ./requirements/mariadb
-        environment: # pass variables from .env file to container environment
-            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-            MYSQL_USER: "${MYSQL_USER}"
-            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-            MYSQL_WP_DATABASE: "${MYSQL_WP_DATABASE}"
-        ports:
-            - 3306:3306
+            context: ./requirements/nginx # Dockerfile location
+            # args: # arguments passed to Dockerfile
+            #     - WP_PASSWORD=$MYSQL_PASSWORD
+        ports: # necessary ports
+            - 443:443
+        volumes:
+            - wordpress_sources:/var/www/html
         networks:
             - incept
-
     wordpress:
         restart: "always"
         depends_on:
-            - mariadb
+            - nginx
         build:
             context: ./requirements/wordpress
         environment:
@@ -33,23 +33,20 @@ services:
         volumes:
             - wordpress_sources:/var/www/html
             # - # wordpress database volume
-            # - # wordpress sourcecode volume
-
-    nginx: # service name
-        restart: "always" # restart on  crash
-        depends_on:
-            - wordpress
-        build:
-            context: ./requirements/nginx # Dockerfile location
-            # args: # arguments passed to Dockerfile
-            #     - WP_PASSWORD=$MYSQL_PASSWORD
-        ports: # necessary ports
-            - 443:443
-        volumes:
-            - wordpress_sources:/var/www/html
-        networks:
-            - incept
-
+                  # - # wordpress sourcecode volume
+    mariadb:
+      restart: "always"
+      build:
+          context: ./requirements/mariadb
+      environment: # pass variables from .env file to container environment
+          MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+          MYSQL_USER: "${MYSQL_USER}"
+          MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+          MYSQL_WP_DATABASE: "${MYSQL_WP_DATABASE}"
+      ports:
+          - 3306:3306
+      networks:
+          - incept
 networks:
     incept:
 
