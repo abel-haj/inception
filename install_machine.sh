@@ -21,12 +21,12 @@ apt-get install -y docker-compose
 
 apt-get install -y vim curl;
 
-# Chrome
-curl -L https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /tmp/chrome.deb
-dpkg -i /tmp/chrome.deb
-rm -rf /tmp/chrome.deb
+# # Chrome
+# curl -L https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /tmp/chrome.deb
+# dpkg -i /tmp/chrome.deb
+# rm -rf /tmp/chrome.deb
 
-mkdir -p /home/abel-haj/data/wp_files /home/abel-haj/data/wp_db /home/abel-haj/data/phpmyadmin
+mkdir -p /home/abel-haj/data/wp_files /home/abel-haj/data/wp_database /home/abel-haj/data/phpmyadmin
 
 ### Moved to Makefile
 # # start docker compose in background

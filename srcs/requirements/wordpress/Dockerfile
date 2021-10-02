@@ -1,7 +1,7 @@
 FROM    debian:buster
 
 RUN     apt-get update -y
-RUN     apt-get install -y curl php7.3-fpm
+RUN     apt-get install -y curl php7.3-fpm php7.3-mysql
 
 COPY    ./tools/install_wp.sh /tmp/
 

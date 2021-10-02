@@ -1,20 +1,20 @@
 version:  '3'
 
 services:
-  # mariadb:
-  #   restart: "always"
-  #   build: ./requirements/mariadb
-  #   ports:
-  #     - 3306:3306
-  #   # volumes:
-  #   #   - wp-db:/var/www/html/
-  #   networks:
-  #     - incept
+  mariadb:
+    restart: "always"
+    build: ./requirements/mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - wp-database:/var/lib/mysql/wordpress
+    networks:
+      - incept
 
   wordpress:
     restart: "always"
-    # depends_on:
-    #   - mariadb
+    depends_on:
+      - mariadb
     build: ./requirements/wordpress
     ports:
       - 9000:9000
@@ -41,14 +41,16 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
+      # device: '/goinfre/abel-haj/data/wp_files'
       device: '/home/abel-haj/data/wp_files'
 
-  db-data:
+  wp-database:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/abel-haj/data/db_files'
+      # device: '/goinfre/abel-haj/data/wp_database'
+      device: '/home/abel-haj/data/wp_database'
 
 networks:
   incept:
