@@ -3,6 +3,7 @@ FROM    debian:buster
 RUN     apt-get update -y
 RUN     apt-get install -y mariadb-server
 
+COPY    ./conf/my.cnf /etc/mysql/
 COPY    ./tools/configure_users.sh /tmp/
 RUN     /bin/bash /tmp/configure_users.sh
 
