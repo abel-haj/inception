@@ -7,7 +7,6 @@ COPY    ./tools/install_wp.sh /tmp/
 COPY    ./conf/wp-config.php /tmp/
 
 # DEBUG
-EXPOSE  443
 RUN     apt-get install -y vim
 # DEBUG
 
