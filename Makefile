@@ -1,8 +1,6 @@
-NAME		= inception
-
 COMPOSE		= docker-compose -f srcs/docker-compose.yml
 
-$(NAME)		: build up
+$(NAME)		: all
 
 all				: re
 
