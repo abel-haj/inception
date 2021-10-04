@@ -12,8 +12,6 @@ COPY    ./conf/default /etc/nginx/sites-available/
 
 # DEBUG
 RUN     apt-get install -y vim
-RUN     echo 'alias status="service --status-all"' >> /home/.bashrc
-RUN     /bin/bash -c "source /home/.bashrc"
 # DEBUG
 
-CMD     ["nginx", "-g", "daemon off;"]
+ENTRYPOINT  ["nginx", "-g", "daemon off;"]

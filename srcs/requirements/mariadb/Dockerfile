@@ -4,13 +4,11 @@ RUN     apt-get update -y
 RUN     apt-get install -y mariadb-server
 
 COPY    ./conf/my.cnf /etc/mysql/
-COPY    ./tools/configure_users.sh /tmp/
-RUN     /bin/bash /tmp/configure_users.sh
+COPY    ./tools/*.sh /tmp/
 
 # DEBUG
 RUN     apt-get install -y vim
-RUN     echo 'alias status="service --status-all"' >> /home/.bashrc
-RUN     /bin/bash -c "source /home/.bashrc"
 # DEBUG
 
-ENTRYPOINT ["mysqld_safe"]
+# ENTRYPOINT      ["mysqld_safe"]
+CMD     ["/bin/bash", "/tmp/configure_configuration.sh"]

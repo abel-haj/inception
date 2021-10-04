@@ -1,15 +1,15 @@
-# COMPOSE		= docker-compose --project-directory ./srcs
+NAME		= inception
+
 COMPOSE		= docker-compose -f srcs/docker-compose.yml
 
 $(NAME)		: build up
+
+all				: re
 
 up				:
 	$(COMPOSE) up -d
 
 build			:
-	$(COMPOSE) build
-
-cache			:
 	$(COMPOSE) build --no-cache
 
 down			:
@@ -21,4 +21,11 @@ config		:
 ps				:
 	$(COMPOSE) ps
 
-re				: down cache up
+clean			: down
+	$(COMPOSE) down -v --rmi all
+
+fclean		: clean
+	/bin/rm -rf /home/abel-haj/data/wp_database/* 2> /dev/null
+	/bin/rm -rf /home/abel-haj/data/wp_files/* 2> /dev/null
+
+re				: fclean build up
