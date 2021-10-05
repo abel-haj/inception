@@ -2,28 +2,27 @@ COMPOSE		= docker-compose -f srcs/docker-compose.yml
 
 $(NAME)		: all
 
-all				: re
+all			: up
 
-up				:
+start		:
+	$(COMPOSE) start
+
+stop		:
+	$(COMPOSE) stop
+
+up			:
 	$(COMPOSE) up -d
-
-build			:
-	$(COMPOSE) build --no-cache
-
-down			:
-	$(COMPOSE) down
 
 config		:
 	$(COMPOSE) config
 
-ps				:
+ps			:
 	$(COMPOSE) ps
 
-clean			: down
+clean		:
 	$(COMPOSE) down -v --rmi all
 
+# # # #
 fclean		: clean
 	/bin/rm -rf /home/abel-haj/data/wp_database/* 2> /dev/null
 	/bin/rm -rf /home/abel-haj/data/wp_files/* 2> /dev/null
-
-re				: fclean build up
